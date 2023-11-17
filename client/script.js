@@ -1,96 +1,168 @@
-function populateTodoList(todos) {
-  const list = document.getElementById("todo-list");
-  // Write your code to create todo list elements with completed and delete buttons here, all todos should display inside the "todo-list" element.
-  for (let i = 0; i < todos.length; i++) {
-    const todoTask = document.createElement("li");
-    todoTask.textContent = todos[i]["task"];
-
-    const span = document.createElement("span");
-    span.className = "badge bg-primary rounded-pill";
-
-    const iFirst = document.createElement("i");
-    iFirst.className = "fa fa-check";
-    iFirst.addEventListener("click", function () {
-      todoTask.style.textDecoration = "line-through";
+window.onload = function () {
+  fetch("http://localhost:3000/todos")
+  .then(response => response.json())
+  .then(todos => {
+    todos.map(item => {
+      addTodo(item);
     });
-
-    const iSecond = document.createElement("i");
-    iSecond.className = "fa fa-trash";
-    iSecond.addEventListener("click", function() {
-      list.removeChild(todoTask);
-    });
-
-    span.append(iFirst, iSecond);
-    todoTask.append(span);
-    list.append(todoTask);
-  }
-  return list;
+  })
 }
 
-// These are the same todos that currently display in the HTML
-// You will want to remove the ones in the current HTML after you have created them using JavaScript
-let todos = [
-  { task: "Wash the dishes", completed: false },
-  { task: "Do the shopping", completed: false },
-];
-
-populateTodoList(todos);
-
-// This function will take the value of the input field and add it as a new todo to the bottom of the todo list. These new todos will need the completed and delete buttons adding like normal.
-function addNewTodo() {
-  const list = document.querySelector("#todo-list");
-  const input = document.querySelector("#todoInput");
-
-  function createNewTodo(event) {
-    event.preventDefault();
-    if (input.value) {
-      const todoTask = document.createElement("li");
-      todoTask.textContent = input.value;
-
-      const span = document.createElement("span");
-      span.className = "badge bg-primary rounded-pill";
-
-      const iFirst = document.createElement("i");
-      iFirst.className = "fa fa-check";
-      iFirst.addEventListener("click", function () {
-        todoTask.style.textDecoration = "line-through";
-      });
-
-      const iSecond = document.createElement("i");
-      iSecond.className = "fa fa-trash";
-      iSecond.addEventListener("click", function() {
-        list.removeChild(todoTask);
-      });
-
-      span.append(iFirst, iSecond);
-      todoTask.append(span);
-      list.append(todoTask);
-
-      input.value = "";
+function addTodo(item) {
+    const todoItem = document.createElement('li');
+    todoItem.setAttribute('id', item.id);
+    todoItem.innerHTML = `
+      ${item.title}
+      <span>
+        <button class="completeButton">&#10003;</button>
+        <button class="modifyButton">&#9998;</button>
+        <button class="deleteButton">&#128465;</button>
+      </span>
+    `;
+    if (item.done) {
+      todoItem.classList.add('completed');
     }
-  }
+    document.getElementById('todoList').appendChild(todoItem);
 
-  const addToDoButton = document.querySelector(".btn.btn-primary.mb-3");
-  addToDoButton.addEventListener("click", createNewTodo);
-}
-
-addNewTodo();
-
-// Advanced challenge: Write a fucntion that checks the todos in the todo list and deletes the completed ones (we can check which ones are completed by seeing if they have the line-through styling applied or not).
-function deleteAllCompletedTodos() {
-  function removeAllDoneTodos (event) {
-    event.preventDefault();
-    const list = document.querySelector("#todo-list");
-    const allTodos = document.querySelectorAll("#todo-list li");
-    for (let i = 0; i < allTodos.length; i++) {
-      if (allTodos[i].style.textDecoration === "line-through") {
-        list.removeChild(allTodos[i]);
+    const buttons = todoItem.querySelectorAll('button');
+    buttons.forEach(button => {
+      if (button.classList.contains('completeButton')) {
+        button.addEventListener('click', function (event) {
+          const parentLiId = event.target.parentNode.parentNode.id;
+          fetch(`http://localhost:3000/todos`, {
+          method: "PATCH", 
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              id: +parentLiId})
+          }).then(res => {
+              completeTodo(event.target);
+              console.log(res.status);
+          })
+        });
+      } else if (button.classList.contains('modifyButton')) {
+        button.addEventListener('click', modifyTodo);
+      } else if (button.classList.contains('deleteButton')) {
+        button.addEventListener('click', function (event) {
+          const parentLiId = event.target.parentNode.parentNode.id;
+          fetch(`http://localhost:3000/todos/:${parentLiId}`, {
+          method: "DELETE", 
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              id: +parentLiId})
+          }).then(res => {
+              deleteTodo(event.target);
+              const todosContainer = document.querySelector('ul');
+              const todosList = todosContainer.querySelectorAll('li');
+              updateIdForLi(todosList);
+              console.log(res.status);
+          })
+        });
       }
-    }
-  }
-
-  const removeButton = document.querySelector("#remove-all-completed");
-  removeButton.addEventListener("click", removeAllDoneTodos);
+    });
 }
 
-deleteAllCompletedTodos();
+function completeTodo(element) {
+    const todoItem = element.parentNode.parentNode;
+    todoItem.classList.add('completed');
+}
+
+function modifyTodo(event) {
+  const button = event.target;
+  const todoItem = button.parentNode.parentNode;
+  const todoTitle = todoItem.firstChild.textContent.trim();
+
+  const inputField = document.createElement('input');
+  inputField.type = 'text';
+  inputField.value = todoTitle;
+
+  const saveButton = document.createElement('button');
+  saveButton.textContent = 'Save';
+  saveButton.addEventListener("click", function (event) {
+    const newTitle = inputField.value.trim();
+    if (newTitle !== '') {
+      todoItem.firstChild.textContent = newTitle;
+      todoItem.removeChild(inputField);
+      todoItem.removeChild(saveButton);
+    } else {
+      alert('Please enter a valid title!');
+    }
+    fetch(`http://localhost:3000/todos/:${todoItem.id}`, {
+    method: "PATCH", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: +todoItem.id,
+      title: newTitle})
+    }).then(res => {
+        console.log(res.status);
+      })
+  });
+
+  todoItem.appendChild(inputField);
+  todoItem.appendChild(saveButton);
+}
+
+function deleteTodo(element) {
+    const todoItem = element.parentNode.parentNode;
+    todoItem.parentNode.removeChild(todoItem);
+}
+
+function removeCompletedTodos() {
+  const completedTodos = document.querySelectorAll('.completed');
+  completedTodos.forEach(todo => todo.remove());
+}
+
+function updateIdForLi (arr) {
+  arr.forEach((item, index) => {
+    item.id = index + 1; 
+  });
+}
+
+document.querySelector('#newTodoContainer button:nth-of-type(1)').addEventListener('click', function () {
+    fetch("http://localhost:3000/todos", {
+        method: "POST", 
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            title: document.getElementById('newTodoInput').value,
+            done: false})
+    }).then(res => {
+      const todoItem = document.getElementById('newTodoInput');
+      const todosContainer = document.querySelector("ul");
+      const liCount = todosContainer.querySelectorAll('li').length;
+      if (todoItem.value.trim() !== '') {
+        let item = {
+          title: todoItem.value.trim(),
+          done: false,
+          id: liCount + 1
+        };
+        addTodo(item);
+        document.getElementById('newTodoInput').value = '';
+        console.log(res);
+      } else {
+        alert('Please enter a todo title!');
+      }
+    })
+    
+});
+
+document.querySelector('#newTodoContainer button:nth-of-type(2)').addEventListener('click', function () {
+  fetch("http://localhost:3000/todos", {
+        method: "PUT", 
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(res => {
+        removeCompletedTodos();
+        const todosContainer = document.querySelector('ul'); // Get the <ul> element
+        const todosList = todosContainer.querySelectorAll('li');
+        updateIdForLi(todosList);
+        console.log(res);
+    })
+});
