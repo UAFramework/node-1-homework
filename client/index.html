@@ -8,21 +8,21 @@
     </head>
 
     <body>
+        <div id="root">
+            <h1>Todo List</h1>
 
-        <h1>Todo List</h1>
-
-        <!-- Container for adding new todos -->
-        <div id="newTodoContainer">
-            <input type="text" id="newTodoInput" placeholder="Enter todo title">
-            <button id="addTodoButton">Add Todo</button>
-            <button>Remove Completed Todos</button>
+            <!-- Container for adding new todos -->
+            <div id="newTodoContainer">
+                <input type="text" id="newTodoInput" placeholder="Enter todo title">
+                <button id="addTodoButton">Add Todo</button>
+                <button>Remove Completed Todos</button>
+            </div>
+    
+            <!-- Todo List -->
+            <ul id="todoList">
+                <!-- Todos will be dynamically added here -->
+            </ul>
         </div>
-
-        <!-- Todo List -->
-        <ul id="todoList">
-            <!-- Todos will be dynamically added here -->
-        </ul>
-
     </body>
     <script src="script.js"></script>
 </html>
