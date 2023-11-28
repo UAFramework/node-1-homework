@@ -1,3 +1,12 @@
+// const express = require('express');
+// const bodyParser = require('body-parser');
+
+// const app = express();
+// const port = 3000;
+
+// app.use(bodyParser.json());
+
+
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -41,6 +50,7 @@ app.post('/task', (req, res) => {
 });
 
 app.put('/task/:id', (req, res) => {
+  // Object.assign() // like merge for objects for update method?
   const taskId = parseInt(req.params.id);
   const taskIndex = todoTasks.findIndex(task => task.id === taskId);
 
@@ -53,7 +63,7 @@ app.put('/task/:id', (req, res) => {
 });
 
 app.delete('/task/:id', (req, res) => {
-  const taskId = parseInt(req.params.id);
+  const taskId = +parseInt(req.params.id);
   const taskIndex = todoTasks.findIndex(task => task.id === taskId);
 
   if (taskIndex !== -1) {
