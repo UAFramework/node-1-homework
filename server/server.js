@@ -1,26 +1,12 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const cors = require("cors")
 
+const { updateTask } = require("./components/TaskFunctions.js");
+const todos = require("./components/DataStorage.js");
+
 app.use(express.json())
 app.use(cors())
-
-const todos = [
-    { 
-        title: 'Do laundry', 
-        done: false, 
-        id: "1700906584348"
-    },
-    { 
-        title: 'Make dinner', 
-        done: true, 
-        id: "1700906584679"
-    },
-];
-
-function updateTask(existingTask, updatedTask) {
-    Object.assign(existingTask, updatedTask);
-}
 
 
 app.get("/", function (req, res) {
