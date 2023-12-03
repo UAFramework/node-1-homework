@@ -1,3 +1,5 @@
+// this is our Repository:
+
 const todos = [
     { 
         title: 'Do laundry', 
@@ -11,4 +13,4 @@ const todos = [
     },
 ];
 
-module.exports = todos;
+export default todos;

@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
+import cors from "cors"
+
+import { updateTask } from "./components/TaskFunctions.js";
+import todos from "./components/DataStorage.js";
+
 const app = express();
-const cors = require("cors")
-
-const { updateTask } = require("./components/TaskFunctions.js");
-const todos = require("./components/DataStorage.js");
-
 app.use(express.json())
 app.use(cors())
 
