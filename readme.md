@@ -45,7 +45,7 @@ And so whenever user changes a task at the front-end you use REST api to update/
 We will change our approach later, though.
 
 ## Level 2:
-- Use [serve](https://www.npmjs.com/package/serve) to start your front-end as a web server.
+- Use [serve](https://www.npmjs.com/package/serve) to start your front-end as a web server. Other possible ways to do that described in [here](./client/webserver.md).
 - Following this template for [yarn-starter-kit](https://github.com/filkovsp/yarn-starter-kit) make a Monorepo with Yarn out of your project.
 - Add Node's [uuid](https://www.npmjs.com/package/uuid) package into the back-end and generate new UUID for each task whenever it's being posted to the server. Assign it to the `id` key-value in each task.
 - Refactor `POST /task` end-point to assign a unique ID property to the task and return the whole new task's object as response.
