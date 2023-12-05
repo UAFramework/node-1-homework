@@ -86,7 +86,7 @@ const populateTodoList = (todos) => {
       i.addEventListener('click', async function (event) {
         var taskId = event.target.closest('li').getAttribute('task-id');
         if (iCssClass === 'fa-check') {
-          let taskIndex = allTasks.findIndex(task => task.id === +taskId);
+          let taskIndex = allTasks.findIndex(task => task.id === taskId);
 
           if (taskIndex !== -1) {
             allTasks[taskIndex].details.completed = !allTasks[taskIndex].details.completed;
@@ -121,13 +121,14 @@ const populateTodoList = (todos) => {
 const addNewTodo = async (event) => {
   event.preventDefault();
   let taskText = document.getElementById('todoInput').value;
+  let date = document.getElementById('datepicker').value;
+  document.getElementById('todoInput').value = '';
+  document.getElementById('datepicker').value = '';
+
   if (taskText === '') {
     alert('Value can not be empty');
     return;
   }
-  document.getElementById('todoInput').value = '';
-
-  let date = document.getElementById('datepicker').value;
 
   const result = await createTask({
     task: taskText,
@@ -148,7 +149,7 @@ function deleteAllCompletedTodos(event) {
 
   filteredItems.forEach(item => {
     let taskId = item.getAttribute('task-id');
-    deleteTask(+taskId);
+    deleteTask(taskId);
   });
   getAllTasks();
 }
