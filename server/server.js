@@ -1,13 +1,5 @@
-// const express = require('express');
-// const bodyParser = require('body-parser');
-
-// const app = express();
-// const port = 3000;
-
-// app.use(bodyParser.json());
-
-
 const express = require('express');
+const uuid = require('uuid');
 const app = express();
 const port = 3000;
 const cors = require("cors");
@@ -15,20 +7,17 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 
-
 const generateUniqueId = () => {
-  let scale = 5;
-  return Math.floor(Math.random() * Math.pow(10, scale)) + Math.pow(10, scale); // @todo
+  return uuid.v4();
 };
-
 
 const todoTasks = [
   {
-    id: generateUniqueId(),
+    id: `${generateUniqueId()}`,
     details: { task: "Wash the dishes", completed: false, deadline: "05/16/2024" }
   },
   {
-    id: generateUniqueId(),
+    id: `${generateUniqueId()}`,
     details: { task: "Do the shopping", completed: false, deadline: "05/16/2024" }
   },
 ];
@@ -50,8 +39,7 @@ app.post('/task', (req, res) => {
 });
 
 app.put('/task/:id', (req, res) => {
-  // Object.assign() // like merge for objects for update method?
-  const taskId = parseInt(req.params.id);
+  const taskId = req.params.id;
   const taskIndex = todoTasks.findIndex(task => task.id === taskId);
 
   if (taskIndex !== -1) {
@@ -63,7 +51,7 @@ app.put('/task/:id', (req, res) => {
 });
 
 app.delete('/task/:id', (req, res) => {
-  const taskId = +parseInt(req.params.id);
+  const taskId = req.params.id;
   const taskIndex = todoTasks.findIndex(task => task.id === taskId);
 
   if (taskIndex !== -1) {
