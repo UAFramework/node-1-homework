@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "start": "serve",
+    "start": "set PORT=80 && serve",
     "build": "echo 'No build configuration provided'",
     "test": "echo 'No test configuration provided'"
   },
