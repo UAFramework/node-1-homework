@@ -1,0 +1,16 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "set PORT=80 && serve",
+    "build": "echo 'No build configuration provided'",
+    "test": "echo 'No test configuration provided'"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^12.0.0"
+  }
+}
