@@ -1,0 +1,59 @@
+body {
+  background-image: url("assets/world.jpg");
+  background-size: cover; /* Розтягнути фон на весь екран */
+  background-repeat: no-repeat; /* Запобігти повторенню фону */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+#newTodoContainer {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#todoInput {
+  padding: 8px;
+}
+
+#addTodoButton,
+#removeCompletedButton {
+  padding: 8px 16px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.buttons-container button {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.buttons-container button:hover {
+  background-color: #ddd;
+}
