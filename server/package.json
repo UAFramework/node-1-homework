@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "keywords": [],
   "author": "Sana",
   "license": "ISC",
@@ -12,4 +15,3 @@
     "lodash": "^4.17.21"
   }
 }
-
