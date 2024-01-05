@@ -98,7 +98,7 @@ window.onload = function (){
 	
 	function modifyTodo(event){
 	const button = event.target;
-	let taskid = button.getAttribute('taskid');
+	const taskid = button.getAttribute('taskid');
 	
 	const todoItem = button.parentNode.parentNode;
 	const todoTitle = todoItem.firstChild.textContent.trim();
