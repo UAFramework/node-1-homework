@@ -9,6 +9,7 @@
       "program": "server.js",
       "restart": true,
       "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
+      "env": {"NODE_ENV": "local"},
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     },

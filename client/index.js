@@ -1,7 +1,8 @@
-import * as fs from "node:fs";
 import * as http from "node:http";
 import * as path from "node:path";
 import serveHandler from "serve-handler";
+
+const PORT = process.env.PORT ?? 8080;
 
 const options = {
   public: path.join(process.cwd(), "./public"),
@@ -20,7 +21,7 @@ const server = http.createServer((request, response) => {
   return serveHandler(request, response, options);
 });
 
-server.listen(8080, function () {
+server.listen(PORT, function () {
   const addressInfo = this.address();
-  console.log(`Front-End server started at http://localhost:${addressInfo.port}`);
+  console.log(`Front-End server is running at http://localhost:${addressInfo.port}`);
 });

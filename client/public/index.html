@@ -10,19 +10,21 @@
 
     <body>
         <div id="root">
-            <h1>Todo List</h1>
+            <main>
+                <h1>Todo List</h1>
 
-            <!-- Container for adding new todos -->
-            <div id="newTodoContainer">
-                <input type="text" id="newTodoInput" placeholder="Enter todo title">
-                <button id="addTodoButton">Add Todo</button>
-                <button>Remove Completed Todos</button>
-            </div>
-    
-            <!-- Todo List -->
-            <ul id="todoList">
-                <!-- Todos will be dynamically added here -->
-            </ul>
+                <!-- Container for adding new todos -->
+                <div id="newTodoContainer">
+                    <input type="text" id="newTodoInput" placeholder="Enter todo title">
+                    <button ref="add-new-todo">Add Todo</button>
+                </div>
+        
+                <!-- Todo List -->
+                <ul id="todoList">
+                    <!-- Todos will be dynamically added here -->
+                </ul>
+
+            </main>
         </div>
     </body>
     <script src="script.js"></script>
