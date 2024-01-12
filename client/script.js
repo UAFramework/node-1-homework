@@ -3,7 +3,7 @@ function populateTodoList(todos) {
     let list = document.getElementById("todoList");
 
     // Clear the contents of the list before creating new items
-    list.innerHTML = "";
+    list.replaceChildren(); // list.innerHTML = "";//
 
     // Create task items and add "Mark as Done" and "Delete" buttons
     todos.forEach((todo) => {
@@ -53,7 +53,6 @@ let todos = [
 // You will want to remove the ones in the current HTML after you have created them using JavaScript
 
 populateTodoList(todos);
-
 function addNewTodo(event) {
   try {
     event.preventDefault();
@@ -91,7 +90,6 @@ function addNewTodo(event) {
       todoTask.appendChild(buttonsContainer);
       list.appendChild(todoTask);
 
-      // Очищення введеного значення після додавання завдання
       input.value = "";
     }
   } catch (error) {

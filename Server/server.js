@@ -43,15 +43,13 @@ app.put("/tasks/:id", function (req, res) {
   const taskId = req.params.id;
   console.log(`Received PUT request for task with ID ${taskId}`);
 
-  const updatedTaskIndex = tasks.findIndex((task) => task.id === taskId);
+  const updatedTask = tasks.find((task) => task.id === taskId);
 
-  if (updatedTaskIndex !== -1) {
-    tasks[updatedTaskIndex].title =
-      req.body.title || tasks[updatedTaskIndex].title;
-    tasks[updatedTaskIndex].done =
-      req.body.done || tasks[updatedTaskIndex].done;
+  if (updatedTask) {
+    updatedTask.title = req.body.title || updatedTask.title;
+    updatedTask.done = req.body.done || updatedTask.done;
 
-    res.status(200).json(tasks[updatedTaskIndex]);
+    res.status(200).json(updatedTask);
   } else {
     res.status(404).send("Task not found");
   }
